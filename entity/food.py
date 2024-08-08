@@ -17,6 +17,7 @@ class Food():
                 break
             
     def draw(self, screen):
-        pygame.draw.rect(screen, Color.BLUE, pygame.Rect(self.position.x * GameSettings.DEFAULT_SQUARE_SIZE, self.position.y * GameSettings.DEFAULT_SQUARE_SIZE, GameSettings.DEFAULT_SQUARE_SIZE, GameSettings.DEFAULT_SQUARE_SIZE))
-        
+        food_image = pygame.image.load('sprites/food.png')
+        resized_food_image = pygame.transform.scale(food_image, (GameSettings.DEFAULT_SQUARE_SIZE, GameSettings.DEFAULT_SQUARE_SIZE))
+        screen.blit(resized_food_image, (self.position.x * GameSettings.DEFAULT_SQUARE_SIZE, self.position.y * GameSettings.DEFAULT_SQUARE_SIZE))
     

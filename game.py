@@ -35,7 +35,8 @@ class Game():
         self.food.spawn(self.snake.snake_body)
         
         while True:
-            self.create_grid()
+            # self.create_grid()
+            self.screen.fill(Color.BLACK)
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
