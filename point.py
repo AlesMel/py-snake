@@ -6,6 +6,8 @@ class Point():
         self.y = y
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
+    def __str__(self) -> str:
+        return f"[{self.x}, {self.y}]"
 class Directions(enum.Enum):
     UP = Point(0, -1)
     DOWN = Point(0, 1)

@@ -6,9 +6,11 @@ import pygame
 class Snake(pygame.sprite.Sprite):
     def __init__(self) -> None:
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([GameSettings.DEFAULT_SQUARE_SIZE, GameSettings.DEFAULT_SQUARE_SIZE])
+        self.image = pygame.Surface([GameSettings.DEFAULT_SQUARE_SIZE, 
+                                     GameSettings.DEFAULT_SQUARE_SIZE])
         self.image.fill(Color.GREEN)
-        self.snake_body: List[Point] = [Point(1,0), Point(0, 0)]# [Point(GameSettings.DEFAULT_SQUARE_SIZE//2, GameSettings.DEFAULT_SQUARE_SIZE//2)] 
+        self.snake_body: List[Point] = [Point(GameSettings.RESOLUTION[0]//GameSettings.DEFAULT_SQUARE_SIZE//2,
+                                              GameSettings.RESOLUTION[1]//GameSettings.DEFAULT_SQUARE_SIZE//2)]  #[Point(1,0), Point(0, 0)]
         self.rect = self.image.get_rect()
     
     def draw(self, screen):
@@ -25,6 +27,6 @@ class Snake(pygame.sprite.Sprite):
     def check_out_of_bounds(self):
         if self.snake_body[0].x < 0 or self.snake_body[0].x * GameSettings.DEFAULT_SQUARE_SIZE >= GameSettings.RESOLUTION[0] or self.snake_body[0].y < 0 or self.snake_body[0].y * GameSettings.DEFAULT_SQUARE_SIZE >= GameSettings.RESOLUTION[1]:
             return True
-        if self.snake_body[0] in self.snake_body[1:]:
+        if self.snake_body[0] in self.snake_body[1:] and len(self.snake_body) > 2:
             return True
     

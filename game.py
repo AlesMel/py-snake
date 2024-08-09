@@ -12,6 +12,7 @@ class Game():
         self.screen = pygame.display.set_mode(GameSettings.RESOLUTION)
         self.last_direction: Point = Directions.RIGHT
         self.game_over = False
+        self.score = 0
         
     def create_grid(self):
         grid_size = self.__get_grid_size()
@@ -28,15 +29,45 @@ class Game():
         print("Game started")
         pygame.init()
         clock = pygame.time.Clock()
-        font = pygame.font.SysFont(None, 48)  # Font for "Game Over" text
-        
+        font = pygame.font.Font("fonts/PixelifySans-Regular.ttf", 48)  # Font for "Game Over" text
+        start_font = pygame.font.Font("fonts/PixelifySans-Bold.ttf", 18)  # Font for "Press arrow key to begin" text
         self.snake = Snake()
         self.food = Food()
         self.food.spawn(self.snake.snake_body)
         
+        # Wait for the user to press a key
+        self.screen.fill(Color.BLACK)  # Clear screen with black background
+        start_text = start_font.render("PRESS ANY ARROW KEY TO BEGIN", True, (255, 255, 255))  # White tex
+        text_rect = start_text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2 - 100))
+        self.screen.blit(start_text, text_rect)
+        self.snake.draw(self.screen)
+        pygame.display.update()
+            
         while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_UP:
+                        self.can_move(Directions.UP)
+                        break
+                    if event.key == K_DOWN:
+                        self.can_move(Directions.DOWN)
+                        break
+                    if event.key == K_LEFT:
+                        self.can_move(Directions.LEFT)
+                        break
+                    if event.key == K_RIGHT:
+                        self.can_move(Directions.RIGHT)
+                        break
+            else:
+                continue  # Continue to the next iteration of the loop if no key was pressed
+            break  # Exit the loop if a key was pressed
+        
+        while True:
+            self.screen.fill(Color.BLACK)            
             # self.create_grid()
-            self.screen.fill(Color.BLACK)
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -56,6 +87,7 @@ class Game():
             if self.snake.snake_body[0] == self.food.position:
                 self.snake.snake_body.append(self.snake.snake_body[-1])
                 self.food.spawn(self.snake.snake_body)
+                self.score+=1
             self.food.draw(self.screen)
             
             if self.snake.check_out_of_bounds():
